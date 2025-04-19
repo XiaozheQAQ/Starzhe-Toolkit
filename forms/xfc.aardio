@@ -1,0 +1,151 @@
+//创建类似于百度网盘那样可拖动的悬浮窗（*更简便的方法）
+import win.ui;
+import win.ui.atom;
+import win.ui.layered
+import win.region.round;
+import process;
+import win.dlg.message;
+import win;
+import win.animate;
+/*DSG{{*/
+var winform = win.form(text="aardio form";left=140;top=100;right=200;bottom=160;bgcolor=5131854;border="none";exmode="toolwindow";max=false;min=false;mode="popup";title=false)
+winform.add(
+bkplus={cls="bkplus";left=10;top=10;right=51;bottom=49;background="\res\asset\xfc.png";z=1}
+)
+/*}}*/
+
+var ver = 100;
+
+winform.wndproc = function(hwnd, message, wParam, lParam) {
+    select(message) {
+        case 0x201/*_WM_LBUTTONDOWN*/{
+        //点击左键移动窗体
+            winform.hitCaption()
+        }
+        case 0x205/*_WM_RBUTTONUP*/{
+        //右键菜单
+            var popmenu = win.ui.popmenu(winform);
+            popmenu.addTable( {
+                {	"关于本软件";
+                	function(id){
+                		winform.msgbox("星哲工具箱 v.0.1.0.28
+CopyRight Starzhe Toolkit 2025
+使用 aardio+webview2 制作","关于本软件")
+                	}
+                };
+            	{ "快速打开";
+            {
+                {   "开发工具";
+                    
+                };
+                {   "破解软件";
+                    {
+                        {
+                    		"IDM 6.4x Crack";function(id){
+                    			process.execute("res/app/idm_crack.exe");	
+                    		}
+                    		
+                    	},
+                    	{
+                    		"Manifest2Lua";function(id){
+                    			process.execute("res/app/Manifest2Lua_2.exe");	
+                    		}
+                    		
+                    	}
+                    }
+                };
+                {	"其他软件";
+                
+                }   
+            }
+    }; { }
+    {"打开官网";
+    	function(id){
+    		process.openUrl("https://toolkit.gzxing.us.kg/")
+    	}
+    	
+    }
+    {"功能选项";
+    	{
+    		{"停用此电脑的“星哲工具箱”";
+    			function(id){
+    				process.execute("res/killzcb.bat")
+    			}
+    		}
+    		{"停用桌面右键菜单的打开工具箱选项";
+    			function(id){
+    				process.execute("res/killzm.bat")
+    			}
+    		}
+    	}
+    }
+    {
+    	"检查更新";
+    	function(id){
+    		import web.json;
+			import console;
+			import inet.http;
+			
+			
+			var net=inet.http()
+			var html=net.get("https://toolkit.gzxing.us.kg/version.json")//换成自己的远程json api
+			var res=web.json.parse(html);
+			if(ver === res.version){
+				winform.msgbox("当前程序已是最新版！
+版本代号："+res.version
++"
+最后更新日期："+res.date,"检查更新");
+			}elseif(ver < res.version){
+				winform.msgbox("当前程序不是最新版！
+当前版本代号："+ver
++"
+最新版本代号："+res.version
++"
+最后更新日期："+res.date,"版本更新");
+				process.openUrl("https://toolkit.gzxing.us.kg/download.html");
+			}
+			else {
+				winform.msgbox("版本号判断错误！可能是因为版本信息服务器宕机或更改！
+请前往官网查看最新版本","验证错误");
+				process.openUrl("https://toolkit.gzxing.us.kg/download.html");
+			}
+    	}
+    	
+    };{}
+            	{ "关闭悬浮窗"; function(id){ 
+            		winform.close() 
+             	};
+             	}
+            } ) 
+            popmenu.popup()
+        }    
+    }
+}
+
+import win.region.round
+
+import win.ui.shadow
+win.ui.shadow(winform).transparent(0.1)
+
+win.animate.slide(winform).show();
+
+//创建分层窗口，并指定窗口背景色
+var a=win.ui.layered(winform)
+a.backgroundColor=0x8A000000
+ 
+var accent = {
+	int AccentState = 3;
+	INT AccentFlags = 0;
+	INT GradientColor = 0;
+	INT AnimationId = 0;
+};
+		
+::User32.SetWindowCompositionAttribute(winform.hwnd,{
+	INT Attrib = 19;
+	ptr pvData = ..raw.buffer(accent);
+	INT cbData = ..raw.sizeof(accent);
+});
+  
+win.setTopmost(winform.hwnd); //窗口置顶
+winform.show();
+win.loopMessage();

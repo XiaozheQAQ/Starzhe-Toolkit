@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./mdui/css/mdui.min.css">
+    <script src="./mdui/js/mdui.min.js"></script>
+    <title>MAIN</title>
+    <style>
+        :root,body{
+            user-select: none;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }#main{
+            text-align: center;
+        }.main-submain{
+            width: 100vw;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            text-align: center;
+            overflow-y: scroll;
+        }::-webkit-scrollbar{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="mdui-tab mdui-tab-centered" mdui-tab>
+        <a href="#main-devtools" class="mdui-ripple">开发工具</a>
+        <a href="#main-crack" class="mdui-ripple">破解软件</a>
+        <a href="#main-others" class="mdui-ripple">其他软件</a>
+    </div>
+    <div id="main">
+        <div id="main-devtools" class="main-submain">
+            <h1>开发工具</h1>
+        </div>
+        <div id="main-crack" class="main-submain">
+            <div class="mdui-card" style="width: 300px;display: inline-block;margin: 10px;">
+                <div class="mdui-card-media">
+                  <img src="./asset/img/idm.jpeg" style="height: 200px;" alt="IDM懒人包"/>
+                  <div class="mdui-card-media-covered">
+                    <div class="mdui-card-primary">
+                      <div class="mdui-card-primary-title">IDM 6.4x Crack</div>
+                      <div class="mdui-card-primary-subtitle">IDM下载器破解程序</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mdui-card-actions">
+                  <button class="mdui-btn mdui-ripple" onclick="aardio.appopen('res/app/idm_crack.exe')">点击运行</button>
+                </div>
+            </div>
+            <div class="mdui-card" style="width: 300px;display: inline-block;margin: 10px;">
+                <div class="mdui-card-media">
+                  <img src="./asset/img/steam.jpg" style="height: 200px;" alt="manifest2lua_2"/>
+                  <div class="mdui-card-media-covered">
+                    <div class="mdui-card-primary">
+                      <div class="mdui-card-primary-title">Manifest2Lua 2</div>
+                      <div class="mdui-card-primary-subtitle">SteamTools 清单获取脚本，假入库必备</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mdui-card-actions">
+                  <button class="mdui-btn mdui-ripple" onclick="aardio.appopen('res/app/manifest2lua_2.exe')">点击运行</button>
+                </div>
+            </div>
+        </div>
+        <div id="main-others" class="main-submain">
+            <h1>其他软件</h1>
+        </div>
+    </div>
+</body>
+<script>
+    document.oncontextmenu = function(e){
+        e.preventDefault();
+    };
+    document.querySelectorAll('img').forEach((e)=>{
+        e.setAttribute('draggable', false);
+    });
+    document.querySelectorAll('a').forEach((e)=>{
+        e.setAttribute('draggable', false);
+    });
+</script>
+</html>

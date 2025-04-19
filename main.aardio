@@ -1,0 +1,135 @@
+import win.ui;
+import win.util.tray;
+import win.ui.atom;
+import win.ui.shadow;
+import win.ui.simpleWindow2;
+import process;
+import web.view.7;
+import win.animate;
+/*DSG{{*/
+mainForm = win.form(text="星哲工具箱";right=999;bottom=649;bgcolor=16777215;border="none";max=false;mode="popup";title=false)
+mainForm.add(
+bk={cls="bk";left=-1;top=-1;right=1002;bottom=38;bgcolor=14737632;db=1;dl=1;dr=1;dt=1;z=1};
+static={cls="static";text="星哲工具箱";left=8;top=8;right=124;bottom=31;center=1;font=LOGFONT(h=-14;name='幼圆');notify=1;transparent=1;z=2};
+webview={cls="custom";text="自定义控件";left=1;top=39;right=1002;bottom=649;z=3}
+)
+/*}}*/
+
+var tray = win.util.tray(mainForm) //创建托盘图标
+tray.tip = "星哲工具箱" //设置鼠标提示 
+import win.ui.menu;
+mainForm.onClose = function(hwnd,message,wParam,lParam){
+    tray.delete(); //关闭窗口同时删掉托盘，避免关闭窗口后要鼠标移到托盘图标才消失
+}
+mainForm.popmenu=win.ui.popmenu(mainForm);
+mainForm.popmenu.add('打开',function(id){ //添加了一个打开主界面的菜单
+    mainForm.show();
+})
+mainForm.popmenu.add('退出',function(id){ //添加了一个退出程序的菜单
+   mainForm.close()
+})
+import mouse;
+mainForm.onTrayMessage = {
+	[0x205/*_WM_RBUTTONUP*/  ] = function(wParam){ 
+	    //弹出托盘菜单以前,一定要前置主窗口中,
+	    //避免不点击菜单不会消失，父窗口隐藏也要这样做
+	    win.setForeground(mainForm.hwnd,true) //参数 2 为 true 避免显示最小化窗口
+	     
+		/*
+		下面创建托盘弹出菜单。
+		如果程序要开机启动到托盘，最好在这里创建菜单，在用户点击前不要创建菜单，
+		避免系统启动时 DPI 缩放前创建的菜单字体偏小（出现这情况的机率很小）。
+		如果不想重复创建菜单最好写到一个库里，然后在这里 import 即可避免上述问题。
+		*/
+		import win.ui.menu;
+		
+		mainForm.popmenu = win.ui.popmenu(mainForm);//创建弹出菜单
+		mainForm.popmenu.add('打开悬浮窗',function(id){
+			mainForm.loadForm("./forms/xfc.aardio");
+		});
+		mainForm.popmenu.add('退出工具箱',function(id){ mainForm.close() })	    
+	    		
+	    mainForm.popmenu.popup();
+	    mainForm.popmenu.close();
+	};
+	[0x202/*_WM_LBUTTONUP*/] = function(wParam){ 
+
+	};
+	[0x203/*_WM_LBUTTONDBLCLK*/] = function(wParam){ 
+
+	};
+	[0x404/*_PARAM_DESTROY*/] = function(wParam){ 
+
+	};
+	[0x405/*_PARAM_CLICKED*/] = function(wParam){ 
+	};
+}
+
+
+
+var atom,hwnd/*冲突窗口的句柄,该函数会自动激活此窗口*/ = mainForm.atom("AC87DF5A-DA28-8EB4-2FB5-66E92B3F6141");
+if(!atom){
+	/*为窗口设置原子值可以避免一个程序重复运行多个实例*/
+	win.quitMessage();	return;
+}
+
+
+var wb = web.view(mainForm.webview);
+
+mainForm.wndproc = function(hwnd,message,wParam,lParam){
+	 select (message) {
+                case 0x201/*_WM_LBUTTONDOWN*/ {
+                        ::SendMessageInt(mainForm.hwnd, 0xA1/*_WM_NCLBUTTONDOWN*/, 0x2/*_HTCAPTION*/, 0); //拦截控件的 _WM_LBUTTONDOWN，并模拟标题栏拖动
+                        return 0;
+                };
+        }
+}
+
+wb.external = {
+	appopen = function(path){
+		process.execute(path);
+	}
+}
+wb.go("/web/index.html");
+
+mainForm.onRestore = function() {
+    win.animate.roll(mainForm).show();
+    mainForm.show();
+};
+
+import win.region.round
+win.region.round(mainForm,,,15,15)
+
+import win.ui.shadow
+win.ui.shadow(mainForm).transparent(0.2)
+
+/*
+var xfc = mainForm.loadForm('./forms/xfc.aardio')
+*/
+import thread;
+import fsys;
+thread.invoke(
+        function() {
+            // 动态加载目标文件的代码
+            var targetCode = loadcode("./forms/xfc.aardio")
+
+            // 执行目标文件的代码
+            targetCode(mainForm);
+        }
+    )
+
+win.animate.fade( mainForm ).show() 
+
+mainForm.onClose = function(hwnd,message,wParam,lParam){
+    win.animate.fade(mainForm).hide()
+}
+
+mainForm.onMinimize = function(lParam){
+	win.animate.fade(mainForm).hide()
+}
+
+
+mainForm.show();
+win.ui.simpleWindow2(mainForm);
+win.ui.shadow(mainForm);
+return win.loopMessage();
