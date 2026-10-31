@@ -1,4 +1,4 @@
-<img width="147" height="140" alt="image" src="https://github.com/user-attachments/assets/4e21185f-3227-48a2-9adf-0fedfa55cca6" />![星哲工具箱](https://starzhe-version.vercel.app/favicon.ico)
+![星哲工具箱](https://starzhe-version.vercel.app/favicon.ico)
 ### 星哲工具箱 Starzhe Toolkit
 适用系统环境：Windows 7 SP1 及以上（对32位兼容性存疑）
 
