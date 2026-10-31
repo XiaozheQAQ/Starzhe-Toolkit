@@ -1,4 +1,4 @@
-![星哲工具箱](https://toolkit.gzxing.dpdns.org/favicon.ico)
+![星哲工具箱](https://starzhe-version.vercel.app/favicon.ico)
 ### 星哲工具箱 Starzhe Toolkit
 适用系统环境：Windows 7 SP1 及以上（对32位兼容性存疑）
 
