@@ -1,4 +1,4 @@
-![星哲工具箱](https://starzhe-version.vercel.app/favicon.ico)
+<img width="147" height="140" alt="image" src="https://github.com/user-attachments/assets/4e21185f-3227-48a2-9adf-0fedfa55cca6" />![星哲工具箱](https://starzhe-version.vercel.app/favicon.ico)
 ### 星哲工具箱 Starzhe Toolkit
 适用系统环境：Windows 7 SP1 及以上（对32位兼容性存疑）
 
@@ -30,4 +30,4 @@
 
 #### 官方网站
 **提供蓝奏云盘下载链接，国内下载速度更快**
-[点击前往星哲工具箱官网](https://toolkit.gzxing.dpdns.org/)
+[点击前往星哲工具箱官网](https://starzhe-version.vercel.app/)
